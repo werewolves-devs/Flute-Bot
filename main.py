@@ -3,7 +3,7 @@ import random
 import asyncio
 
 # Import config data
-from config import prefix
+from config import prefix, universal_prefix
 import config
 
 client = discord.Client()
@@ -18,11 +18,11 @@ async def on_message(message):
         return
     
     # Ignore messages from the wrong channels.
-    if message.channel.id not in [config.botspam, config.flute, config.victim]:
+    if message.channel.id not in [config.bot_spam, config.flute, config.victim]:
         return
     
     # Give the flute players a tutorial if the Flute Bot gets told so by another bot (or Game Master).
-    if message.channel.id == config.botspam and message.content == universal_prefix + 'sendtutorial':
+    if message.channel.id == config.bot_spam and message.content == universal_prefix + 'sendtutorial':
         await client.send_message(config.tutorial,flute_channel)
         return
         
@@ -60,7 +60,7 @@ async def on_ready():
     print(client.user.name)
     print(client.user.id)
     print('------')
-    await client.send_message(client.get_channel(welcome_channel),'Beep boop! I just went online!')
+    await client.send_message(client.get_channel(config.welcome_channel),'Beep boop! I just went online!')
     
     # Do I need to put "await" in front of this?
     flute_channel = client.get_channel(config.flute)
